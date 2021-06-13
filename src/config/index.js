@@ -5,9 +5,9 @@ module.exports = {
   GIT_LOCAL_PATH: path.resolve(__dirname, '../../Jason'),
   GIT_REPOSITORY_FOLDER_NAME: 'Jason',
   AXIOS_CONFIG: {
-    baseURL: 'https://shri.yandex/hw/api',
+    baseURL: process.env.base_url,
     headers: {
-      'Authorization': process.env.token,
+      'Authorization': 'Bearer ' + process.env.token,
     },
   },
 };
