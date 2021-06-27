@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {BuildItem} from '../../components/BuildItem/BuildItem';
 import {Header} from '../../components/Header/Header';
-import {NavLink} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import useWindowResolution from '../../hooks/useWindowResolution';
 import {Link} from "react-router-dom";
 import './BuildsList.scss';
@@ -9,8 +9,11 @@ import {Modal} from "../../components/Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {getList} from "../../actions/list";
 import {createBuild} from "../../actions/build";
+import {setIsFetching} from "../../reducers/listReducer";
+import {setCommitHash} from "../../reducers/buildReducer";
 
 export const BuildsList = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const list = useSelector(state => state.list.list);
   const isFetching = useSelector(state => state.list.isFetching);
@@ -42,10 +45,19 @@ export const BuildsList = () => {
 
   function onSubmit(e) {
     e.preventDefault();
+    dispatch(setIsFetching(true));
     dispatch(createBuild(commitHash))
       .then(() => {
+        const lastBuild = Number(list[0].buildNumber) + 1;
+        history.push(`/build/${lastBuild}`);
+        dispatch(setCommitHash(commitHash))
         closeModal();
+        dispatch(setIsFetching(false));
       })
+  }
+
+  function onBuildClick(build) {
+    history.push(`/build/${build.buildNumber}`);
   }
 
   return (
@@ -68,12 +80,15 @@ export const BuildsList = () => {
               list.length && (
                 <div className="list__builds">
                   {list.slice(0, chunks).map((build) => (
-                    <NavLink className="build" key={build.buildNumber}
-                             to={`/build/${build.buildNumber}`}>
+                    <div className="build"
+                          key={build.buildNumber}
+                          onClick={() => onBuildClick(build)}
+                    >
                       <BuildItem
                         build={build}
+                        key={build.buildNumber}
                       />
-                    </NavLink>
+                    </div>
                   ))}
                   {list.length > chunks && (
                     <button className="ci-btn ci-btn__small list__btn">
@@ -84,9 +99,7 @@ export const BuildsList = () => {
               )
             )
             :
-            <div className="fetching">
-              загрузка
-            </div>
+            <div className="fetching"/>
         }
       </div>
 

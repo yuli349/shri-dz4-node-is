@@ -1,9 +1,11 @@
 const SET_BUILD = 'SET_BUILD';
-const SET_IS_FETCHING_BUILD = 'SET_IS_FETCHING_BUILD';
+const SET_HASH = 'SET_HASH';
+const SET_IS_FETCHING = 'SET_IS_FETCHING';
 
 const defaultState = {
   build: {},
-  isFetchingBuild: true,
+  isFetching: true,
+  commitHash: '',
 }
 
 export default function buildReducer(state = defaultState, action) {
@@ -12,14 +14,17 @@ export default function buildReducer(state = defaultState, action) {
       return {
         ...state,
         build: action.payload,
-        isFetchingBuild: false,
+        isFetching: false,
       };
-    case SET_IS_FETCHING_BUILD:
-      return {...state, isFetchingBuild: action.payload};
+    case SET_IS_FETCHING:
+      return {...state, isFetching: action.payload};
+    case SET_HASH:
+      return {...state, commitHash: action.payload};
     default:
       return state;
   }
 }
 
 export const setBuild = (build) => ({type: SET_BUILD, payload: build});
-export const setIsFetchingBuild = (bool) => ({type: SET_IS_FETCHING_BUILD, payload: bool});
+export const setCommitHash = (hash) => ({type: SET_HASH, payload: hash});
+export const setIsFetching = (bool) => ({type: SET_IS_FETCHING, payload: bool});

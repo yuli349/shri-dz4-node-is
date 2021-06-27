@@ -7,10 +7,21 @@ export function createBuild(commitHash) {
     try {
       const response = await axios.post(`http://localhost:3000/api/builds/${commitHash}`);
       dispatch(setBuild(response.data));
-      console.log('1');
-      console.log(response.data.config.data);
       dispatch(setIsFetching(false));
-      console.log('2');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+}
+
+export function getBuild(buildId) {
+  return async dispatch => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/builds/${buildId}`);
+      dispatch(setBuild(response.data));
+      console.log(response.data);
+      dispatch(setIsFetching(false));
     } catch (e) {
       console.log(e);
     }

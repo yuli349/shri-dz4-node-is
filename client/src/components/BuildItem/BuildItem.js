@@ -1,13 +1,13 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import Moment from 'react-moment';
 
 import './BuildItem.scss';
 
-function renderStatus(status) {
+function renderStatus(success, status) {
   switch (true) {
-    case status === 'Success':
+    case status === true || status === 'Success':
       return 'ok';
-    case status === 'Fail':
+    case status === false || status === 'Fail':
       return 'fail';
     default:
       return 'wait';
@@ -22,15 +22,16 @@ function secToTime(sec) {
   let minutes = (sec / 60).toFixed(0);
   let hours = Math.trunc(sec / 3600);
   let minWithoutHours = minutes - hours * 60;
-  if (minutes < 60) return minutes + " min";
+  if (sec < 60) return sec + " sec";
+  else if (minutes < 60) return minutes + " min";
   else return hours + " h " + minWithoutHours + " min";
 }
 
 export const BuildItem = ({build}) => {
-  let commitHash = build.commitHash.slice(0, 8);
+  let commitHash = build.commitHash?.slice(0, 8);
   return (
     <Fragment>
-      <div className={`build__info status-${renderStatus(build.status)}`}>
+      <div className={`build__info status-${renderStatus(build.success, build.status)}`}>
         <i className="build__info-icon"/>
 
         <div className="build__info-status">

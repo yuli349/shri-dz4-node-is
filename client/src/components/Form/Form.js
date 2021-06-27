@@ -1,7 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {NavLink, useHistory } from 'react-router-dom';
 import './Form.scss';
-import {Route} from "react-router-dom";
 import MaskedInput from 'react-text-mask';
 import {postSettings} from "../../actions/settings";
 import {useDispatch} from "react-redux";
@@ -76,7 +75,6 @@ export const Form = () => {
       .then(() => {
         history.push('/');
       })
-
   }
 
   return (

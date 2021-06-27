@@ -11,11 +11,9 @@ export function getSettings() {
       alert(e.response?.data.message);
     }
   }
-
 }
 
 export function postSettings(req) {
-  console.log(req);
   return async dispatch => {
     try {
       const response = await axios.post('http://localhost:3000/api/settings', req);
@@ -24,5 +22,4 @@ export function postSettings(req) {
       alert(e.response?.data.message);
     }
   }
-
 }

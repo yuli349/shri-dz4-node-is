@@ -29,9 +29,7 @@ export const MainPage = () => {
             <BuildsList/>
           }</Fragment>
         :
-        <div className="fetching">
-        загрузка
-        </div>
+        <div className="fetching"/>
       }
     </Fragment>
   )
