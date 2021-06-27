@@ -2,12 +2,16 @@ import React, {Fragment} from 'react';
 import {default as AnsiUp} from 'ansi_up';
 import {BuildItem} from '../../components/BuildItem/BuildItem';
 import {Header} from '../../components/Header/Header';
-import build from '../../assets/data/build.json';
+// import build from '../../assets/data/build.json';
 
 import './BuildDetail.scss';
 import {NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 export const BuildDetail = () => {
+  const dispatch = useDispatch();
+  const build = useSelector(state => state.build.build);
+  console.log(build);
   const ansi_up = new AnsiUp();
   const txt = '[2K[1G[1myarn run v1.22.5[22m\n' +
     '[2K[1G[2m$ webpack --config webpack/production.js --color[22m\n' +

@@ -8,7 +8,7 @@ import './BuildsList.scss';
 import {Modal} from "../../components/Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {getList} from "../../actions/list";
-import {sendBuild} from "../../actions/build";
+import {createBuild} from "../../actions/build";
 
 export const BuildsList = () => {
   const dispatch = useDispatch();
@@ -21,8 +21,11 @@ export const BuildsList = () => {
     dispatch(getList())
   }, [])
 
+  let commitHash = commit || '';
+
   const commitHandler = (e) => {
     setCommit(e.target.value)
+    commitHash = e.target.value;
   }
 
   function closeModal() {
@@ -37,9 +40,12 @@ export const BuildsList = () => {
 
   const chunks = Chunks();
 
-  function onSubmit(values) {
-    dispatch(sendBuild(values));
-    closeModal();
+  function onSubmit(e) {
+    e.preventDefault();
+    dispatch(createBuild(commitHash))
+      .then(() => {
+        closeModal();
+      })
   }
 
   return (
@@ -110,7 +116,7 @@ export const BuildsList = () => {
               </div>
               <div className="form__btns">
                 <button disabled={commit === ''}
-                        onClick={() => onSubmit(commit)}
+                        onClick={onSubmit}
                         className="ci-btn ci-btn__big ci-btn__yellow">
                   <span>Run build</span>
                 </button>
