@@ -1,0 +1,89 @@
+@import '../../sass/constants.scss';
+
+.header {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__btns {
+    display: flex;
+    align-items: center;
+  }
+
+  &__btn-rebuild,
+  &__btn-build {
+    padding: 0 10px;
+  }
+
+  &__btn-build .icon {
+    background: url("../../assets/images/12_play.svg") no-repeat;
+    display: block;
+    width: 9px;
+    height: 10px;
+    margin-right: 6px;
+  }
+
+  &__btn-rebuild .icon {
+    background: url("../../assets/images/12_rebuild.svg") no-repeat;
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+  }
+
+  &__btn-settings {
+    margin-left: 8px;
+  }
+
+  &__btn-settings .icon {
+    background: url("../../assets/images/12_settings.svg") no-repeat;
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 12px 0;
+    align-items: flex-start;
+
+    &__title {
+      font-size: 18px;
+      line-height: 22px;
+      white-space: inherit;
+      overflow: auto;
+      text-overflow: inherit;
+      margin-right: 8px;
+    }
+
+    &__btn-build {
+      padding: 0;
+      margin-left: 8px;
+    }
+
+    &__btn-build span {
+      display: none;
+    }
+
+    &__btn-build .icon {
+      margin-right: 0;
+    }
+  }
+
+  .header .wrapper {
+    align-items: flex-start;
+  }
+}

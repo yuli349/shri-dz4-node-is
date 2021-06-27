@@ -1,0 +1,58 @@
+@import '../../sass/constants.scss';
+
+.modal {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: 0.5s;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__content {
+    width: 485px;
+    min-height: 190px;
+    border-radius: 4px;
+    padding: 20px 20px 0;
+    background: $white;
+    box-shadow: 0 0 1px rgba(67, 68, 69, 0.3), 0 6px 16px rgba(67, 68, 69, 0.3);
+    transition: 0.5s all;
+    transform: scale(0.5);
+
+    &.active {
+      transform: scale(1);
+    }
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  &__form .base-input .label {
+    margin-bottom: 12px;
+  }
+
+  &__form .base-input {
+    margin: 12px 0;
+  }
+
+  &__form .ci-btn {
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  &__form .ci-btn__yellow {
+    margin-right: 8px;
+  }
+}

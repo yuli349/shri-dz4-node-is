@@ -1,0 +1,203 @@
+@import '../../sass/constants.scss';
+
+.build {
+  display: flex;
+  padding: 12px 24px;
+  box-shadow: 0 0 1px rgba(67, 68, 69, 0.3), 0 1px 1px rgba(67, 68, 69, 0.3);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+  min-height: 68px;
+  cursor: pointer;
+  justify-content: space-between;
+  text-decoration: none;
+  color: $black;
+
+  &:hover {
+    box-shadow: 0 0 1px rgba(67, 68, 69, 0.3), 0 2px 8px rgba(67, 68, 69, 0.3);
+  }
+
+  &__info {
+    width: calc(100% - 106px);
+    display: flex;
+  }
+
+  &__info-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-right: 9px;
+  }
+
+  &__info-status {
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__info-status-top {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__info-number {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  &__info-status-name {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  &__info-branch span {
+    opacity: .65;
+    margin-left: 4px;
+  }
+
+  &__info-branch .icon {
+    margin-right: 4px;
+    background: url("../../assets/images/16_code-commit.svg") no-repeat center;
+    background-size: 100%;
+    width: 16px;
+    height: 8px;
+    display: inline-flex;
+    opacity: .3;
+  }
+
+  &__info-user {
+    margin-left: 10px;
+  }
+
+  &__info-user .icon {
+    margin-right: 4px;
+    background: url("../../assets/images/16_user.svg") no-repeat;
+    background-size: 100%;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    opacity: .3;
+    margin-top: -4px;
+    position: relative;
+    top: 3px;
+  }
+
+  &__date {
+    margin-bottom: 12px;
+  }
+
+  &__date .icon {
+    margin-right: 4px;
+    background: url("../../assets/images/16_calendar.svg") no-repeat center;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    opacity: .3;
+    margin-top: -4px;
+    position: relative;
+    top: 3px;
+  }
+
+  &__time .icon {
+    margin-right: 4px;
+    background: url("../../assets/images/16_stopwatch.svg") no-repeat center;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    opacity: .3;
+    margin-top: -4px;
+    position: relative;
+    top: 3px;
+  }
+
+  &__info.status-ok .build__info-number {
+    color: $green;
+  }
+
+  &__info.status-ok .build__info-icon {
+    background: url("../../assets/images/done_24.svg") no-repeat;
+    background-size: 100%;
+  }
+
+  &__info.status-wait .build__info-number {
+    color: $orange;
+  }
+
+  &__info.status-wait .build__info-icon {
+    background: url("../../assets/images/clock_24.svg") no-repeat;
+    background-size: 100%;
+  }
+
+  &__info.status-fail .build__info-number {
+    color: $red;
+  }
+
+  &__info.status-fail .build__info-icon {
+    background: url("../../assets/images/fail_24.svg") no-repeat;
+    background-size: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .build {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px 12px 16px 36px;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    &__info {
+      width: 100%;
+      position: relative;
+    }
+
+    &__info-icon {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      position: absolute;
+      left: -25px;
+    }
+
+    &__info-status {
+      border-bottom: 1px solid #F0F2F3;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    &__info-status-top {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__info-number {
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 400;
+      margin: 0 0 8px;
+    }
+
+    &__info-user,
+    &__info-branch {
+      display: block;
+    }
+
+    &__time,
+    &__date {
+      display: inline-block;
+    }
+
+    &__info-user {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+
+    &__date {
+      margin-bottom: 0;
+      margin-right: 9px;
+    }
+  }
+}
