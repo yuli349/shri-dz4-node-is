@@ -8,9 +8,9 @@ import './BuildsList.scss';
 import {Modal} from "../../components/Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {getList} from "../../actions/list";
-import {createBuild, getBuild} from "../../actions/build";
+import {createBuild} from "../../actions/build";
 import {setIsFetching} from "../../reducers/listReducer";
-import {setCommitHash, setIsFetchingBuild} from "../../reducers/buildReducer";
+import {setCommitHash} from "../../reducers/buildReducer";
 
 export const BuildsList = () => {
   const history = useHistory();
@@ -59,10 +59,7 @@ export const BuildsList = () => {
   }
 
   function onBuildClick(build) {
-    dispatch(getBuild(build.id))
-      .then(() => {
-        history.push(`/build/${build.buildNumber}`);
-      })
+    localStorage.setItem('buildId', JSON.stringify(build.id))
     history.push(`/build/${build.buildNumber}`);
   }
 

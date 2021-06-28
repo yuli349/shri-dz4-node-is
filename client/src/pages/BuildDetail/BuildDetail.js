@@ -12,26 +12,23 @@ import {setIsFetchingBuild} from "../../reducers/buildReducer";
 export const BuildDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const list = useSelector(state => state.list.list);
   const build = useSelector(state => state.build.build.data);
   const isFetching = useSelector(state => state.build.isFetching);
-  const hash = useSelector(state => state.build.commitHash);
   const ansi_up = new AnsiUp();
   let html = build?.buildLog ? ansi_up.ansi_to_html(build.buildLog) : '';
+  const buildId = localStorage.getItem('buildId');
+  useEffect(() => {
+    dispatch(setIsFetchingBuild(true));
+    dispatch(getBuild(JSON.parse(buildId)));
+  }, [])
 
-  console.log(build);
-
-  // useEffect(() => {
-  //   dispatch(setIsFetchingBuild(true));
-  //   dispatch(getBuild(build?.id));
-  // }, [])
+  const lastBuild = Number(list[0]?.buildNumber) + 1;
 
   function onSubmit(e) {
     e.preventDefault();
-    dispatch(setIsFetchingBuild(true))
-    dispatch(createBuild(hash))
+    dispatch(createBuild(build?.commitHash))
       .then(() => {
-        dispatch(setIsFetchingBuild(false));
-        const lastBuild = Number(build.buildNumber) + 1;
         history.push(`/build/${lastBuild}`);
       })
   }

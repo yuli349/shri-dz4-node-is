@@ -1,6 +1,5 @@
 import React, {Fragment, useEffect} from 'react';
 
-import {Route, Switch} from "react-router-dom";
 import {Start} from "../../pages/Start/Start";
 import {getSettings} from '../../actions/settings';
 import {BuildsList} from "../../pages/BuildsList/BuildsList";
