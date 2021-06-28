@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "b03abbfb-488f-4b61-8412-9c988b8983a8",
+      "configurationId": "66dadb8c-c88c-427e-8afe-8e6c457e8e35",
+      "buildNumber": 8,
+      "commitMessage": "Add files via upload via upload",
+      "commitHash": "8a5ae6873abd563deac395b73b39c339af748842",
+      "branchName": "master",
+      "authorName": "yuli349",
+      "status": "Done",
+      "start": "2021-06-20T11:04:10.823Z",
+      "duration": 2400
+    }
+  ]
+}

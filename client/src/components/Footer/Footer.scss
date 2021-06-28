@@ -1,0 +1,46 @@
+@import '../../sass/constants.scss';
+
+.footer {
+  background: $blue-grey;
+  height: 32px;
+  width: 100%;
+  color: $primary1;
+  line-height: 18px;
+
+  .wrapper {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  &__menu {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      display: inline-block;
+      margin-right: 12px;
+      cursor: pointer;
+
+      &:hover {
+        color: #E00000;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    height: 68px;
+    padding: 12px 0;
+
+    .wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    &__menu {
+      margin: 0 0 8px;
+    }
+  }
+}
