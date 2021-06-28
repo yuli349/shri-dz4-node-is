@@ -59,7 +59,6 @@ export const BuildsList = () => {
   }
 
   function onBuildClick(build) {
-    dispatch(setIsFetchingBuild(true));
     dispatch(getBuild(build.id))
       .then(() => {
         history.push(`/build/${build.buildNumber}`);
