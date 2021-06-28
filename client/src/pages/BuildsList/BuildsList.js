@@ -8,17 +8,19 @@ import './BuildsList.scss';
 import {Modal} from "../../components/Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {getList} from "../../actions/list";
-import {createBuild} from "../../actions/build";
+import {createBuild, getBuild} from "../../actions/build";
 import {setIsFetching} from "../../reducers/listReducer";
-import {setCommitHash} from "../../reducers/buildReducer";
+import {setCommitHash, setIsFetchingBuild} from "../../reducers/buildReducer";
 
 export const BuildsList = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const settings = useSelector(state => state.settings.settings.data.data);
   const list = useSelector(state => state.list.list);
   const isFetching = useSelector(state => state.list.isFetching);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commit, setCommit] = useState('');
+  const repoName = settings.repoName.replace('https://github.com/', '');
 
   useEffect(() => {
     dispatch(getList())
@@ -48,7 +50,7 @@ export const BuildsList = () => {
     dispatch(setIsFetching(true));
     dispatch(createBuild(commitHash))
       .then(() => {
-        const lastBuild = Number(list[0].buildNumber) + 1;
+        const lastBuild = list.length ? Number(list[0].buildNumber) + 1 : 1;
         history.push(`/build/${lastBuild}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
@@ -57,12 +59,17 @@ export const BuildsList = () => {
   }
 
   function onBuildClick(build) {
+    dispatch(setIsFetchingBuild(true));
+    dispatch(getBuild(build.id))
+      .then(() => {
+        history.push(`/build/${build.buildNumber}`);
+      })
     history.push(`/build/${build.buildNumber}`);
   }
 
   return (
     <Fragment>
-      <Header title="yuli349/my-awesome-repo">
+      <Header title={repoName}>
         <button className="ci-btn ci-btn__small header__btn-build"
                 onClick={() => setIsModalOpen(true)}>
           <i className="icon"/> <span>Run build</span>
@@ -77,7 +84,9 @@ export const BuildsList = () => {
           isFetching === false
             ?
             (
-              list.length && (
+              list.length > 0
+              ?
+              (
                 <div className="list__builds">
                   {list.slice(0, chunks).map((build) => (
                     <div className="build"
@@ -97,6 +106,8 @@ export const BuildsList = () => {
                   )}
                 </div>
               )
+                :
+                <div>The list of builds is empty</div>
             )
             :
             <div className="fetching"/>

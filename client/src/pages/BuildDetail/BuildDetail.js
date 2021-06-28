@@ -7,30 +7,30 @@ import './BuildDetail.scss';
 import {NavLink, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createBuild, getBuild} from "../../actions/build";
-import {setIsFetching} from "../../reducers/listReducer";
+import {setIsFetchingBuild} from "../../reducers/buildReducer";
 
 export const BuildDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const build = useSelector(state => state.build.build);
+  const build = useSelector(state => state.build.build.data);
   const isFetching = useSelector(state => state.build.isFetching);
   const hash = useSelector(state => state.build.commitHash);
   const ansi_up = new AnsiUp();
-  let html = ansi_up.ansi_to_html(build.buildLog);
+  let html = build?.buildLog ? ansi_up.ansi_to_html(build.buildLog) : '';
 
-  console.log(hash);
+  console.log(build);
 
   // useEffect(() => {
-  //   dispatch(setIsFetching(true));
-  //   dispatch(getBuild('bca4e0c8-70e5-4b54-abfd-64b704108f9b'));
+  //   dispatch(setIsFetchingBuild(true));
+  //   dispatch(getBuild(build?.id));
   // }, [])
 
   function onSubmit(e) {
     e.preventDefault();
-    dispatch(setIsFetching(true))
+    dispatch(setIsFetchingBuild(true))
     dispatch(createBuild(hash))
       .then(() => {
-        dispatch(setIsFetching(false));
+        dispatch(setIsFetchingBuild(false));
         const lastBuild = Number(build.buildNumber) + 1;
         history.push(`/build/${lastBuild}`);
       })
@@ -43,19 +43,23 @@ export const BuildDetail = () => {
           ?
           (
             <div className="detail">
-              <Header title={build.commitMessage}>
-                <button className="ci-btn ci-btn__small header__btn-rebuild"
-                        onClick={onSubmit}>
-                  <i className="icon"/> <span>Rebuild</span>
-                </button>
 
-                <NavLink className="ci-btn ci-btn__small header__btn-settings"
-                         to="/settings"><i
-                  className="icon"/></NavLink>
-              </Header>
-              <div className="build">
-                <BuildItem build={build}/>
-              </div>
+              <Fragment>
+                <Header title={build?.commitMessage}>
+                  <button className="ci-btn ci-btn__small header__btn-rebuild"
+                          onClick={onSubmit}>
+                    <i className="icon"/> <span>Rebuild</span>
+                  </button>
+
+                  <NavLink className="ci-btn ci-btn__small header__btn-settings"
+                           to="/settings"><i
+                    className="icon"/></NavLink>
+                </Header>
+                <div className="build">
+                  <BuildItem build={build}/>
+                </div>
+              </Fragment>
+
               {html &&
               <div className="detail__logs">
                 <pre dangerouslySetInnerHTML={{__html: html}}/>

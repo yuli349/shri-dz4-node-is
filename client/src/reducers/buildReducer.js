@@ -27,4 +27,4 @@ export default function buildReducer(state = defaultState, action) {
 
 export const setBuild = (build) => ({type: SET_BUILD, payload: build});
 export const setCommitHash = (hash) => ({type: SET_HASH, payload: hash});
-export const setIsFetching = (bool) => ({type: SET_IS_FETCHING, payload: bool});
+export const setIsFetchingBuild = (bool) => ({type: SET_IS_FETCHING, payload: bool});

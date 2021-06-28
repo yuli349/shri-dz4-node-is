@@ -14,6 +14,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: calc(100% - 140px);
   }
 
   &__btns {
@@ -67,17 +68,21 @@
       overflow: auto;
       text-overflow: inherit;
       margin-right: 8px;
+      width: calc(100% - 70px);
     }
 
+    &__btn-rebuild,
     &__btn-build {
       padding: 0;
       margin-left: 8px;
     }
 
+    &__btn-rebuild span,
     &__btn-build span {
       display: none;
     }
 
+    &__btn-rebuild .icon,
     &__btn-build .icon {
       margin-right: 0;
     }
