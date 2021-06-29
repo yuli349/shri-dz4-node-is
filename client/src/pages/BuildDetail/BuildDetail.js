@@ -21,7 +21,7 @@ export const BuildDetail = () => {
   useEffect(() => {
     dispatch(setIsFetchingBuild(true));
     dispatch(getBuild(JSON.parse(buildId)));
-  }, [])
+  }, [dispatch, buildId])
 
   const lastBuild = Number(list[0]?.buildNumber) + 1;
 
