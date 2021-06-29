@@ -6,7 +6,7 @@ import {Header} from '../../components/Header/Header';
 import './BuildDetail.scss';
 import {NavLink, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createBuild, getBuild} from "../../actions/build";
+import {createBuild, getBuild, getBuildLogs} from "../../actions/build";
 import {setIsFetchingBuild} from "../../reducers/buildReducer";
 
 export const BuildDetail = () => {
@@ -14,13 +14,17 @@ export const BuildDetail = () => {
   const history = useHistory();
   const list = useSelector(state => state.list.list);
   const build = useSelector(state => state.build.build.data);
+  const logs = useSelector(state => state.build.logs);
   const isFetching = useSelector(state => state.build.isFetching);
   const ansi_up = new AnsiUp();
-  let html = build?.buildLog ? ansi_up.ansi_to_html(build.buildLog) : '';
+  let html = logs ? ansi_up.ansi_to_html(logs) : '';
   const buildId = localStorage.getItem('buildId');
   useEffect(() => {
     dispatch(setIsFetchingBuild(true));
-    dispatch(getBuild(JSON.parse(buildId)));
+    dispatch(getBuild(JSON.parse(buildId)))
+      .then(() => {
+        dispatch(getBuildLogs(JSON.parse(buildId)))
+      })
   }, [dispatch, buildId])
 
   const lastBuild = Number(list[0]?.buildNumber) + 1;

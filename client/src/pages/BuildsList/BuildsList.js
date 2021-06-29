@@ -53,7 +53,7 @@ export const BuildsList = () => {
         history.push(`/build/${lastBuild}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
-        setTimeout(() => dispatch(setIsFetching(false)), 0);
+        setTimeout(() => dispatch(setIsFetching(false)), 50);
       })
   }
 
