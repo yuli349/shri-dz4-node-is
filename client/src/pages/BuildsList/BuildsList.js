@@ -24,7 +24,7 @@ export const BuildsList = () => {
 
   useEffect(() => {
     dispatch(getList())
-  }, [])
+  }, [dispatch])
 
   let commitHash = commit || '';
 
@@ -47,14 +47,13 @@ export const BuildsList = () => {
 
   function onSubmit(e) {
     e.preventDefault();
-    dispatch(setIsFetching(true));
     dispatch(createBuild(commitHash))
       .then(() => {
         const lastBuild = list.length ? Number(list[0].buildNumber) + 1 : 1;
         history.push(`/build/${lastBuild}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
-        dispatch(setIsFetching(false));
+        setTimeout(() => dispatch(setIsFetching(false)), 0);
       })
   }
 

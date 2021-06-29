@@ -1,13 +1,14 @@
-import React, {Fragment, useState, useEffect} from 'react';
-import {NavLink, useHistory } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import './Form.scss';
 import MaskedInput from 'react-text-mask';
 import {postSettings} from "../../actions/settings";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export const Form = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const isFetching = useSelector(state => state.settings.isFetching);
   const [repository, setRepository] = useState('');
   const [command, setCommand] = useState('');
   const [branch, setBranch] = useState('');
@@ -21,7 +22,7 @@ export const Form = () => {
   let submitJson = {
     "repoName": repository || '',
     "buildCommand": command || '',
-    "mainBranch": branch || '',
+    "mainBranch": branch || 'master',
     "period": period || 0
   }
 
@@ -75,98 +76,105 @@ export const Form = () => {
       .then(() => {
         history.push('/');
       })
+      .catch(() => {
+        setRepositoryError('Не удалось клонировать репозиторий')
+      })
+  }
+
+  function onCancel() {
+    history.push('/');
   }
 
   return (
-    <Fragment>
-      <div className="form">
-        <form>
-          <div className="base-input">
-            <label>
-              <div className='label'>GitHub repository<i>*</i></div>
-              <div className="form-input">
-                <input className="ci-input"
+    <div className="form">
+      <form>
+        <div className="base-input">
+          <label>
+            <div className='label'>GitHub repository<i>*</i></div>
+            <div className="form-input">
+              <input className="ci-input"
+                     type='text'
+                     name='repository'
+                     value={repository}
+                     onBlur={e => blurHandler(e)}
+                     onChange={e => repositoryHandler(e)}
+                     placeholder="user-name/repo-name"
+              />
+              {repository !== '' &&
+              <i className="icon-clear"
+                 onClick={() => clearInput(setRepository, setRepositoryDirty, setRepositoryError)}/>
+              }
+              {(repositoryDirty && repositoryError) &&
+              <div className="error-message"
+                   style={{color: 'red'}}>{repositoryError}</div>}
+            </div>
+          </label>
+        </div>
+        <div className="base-input">
+          <label>
+            <div className='label'>Build command<i>*</i></div>
+            <div className="form-input">
+              <input className="ci-input"
+                     type='text'
+                     name='command'
+                     value={command}
+                     onBlur={e => blurHandler(e)}
+                     onChange={e => commandHandler(e)}
+                     placeholder="build command"
+              />
+              {command !== '' &&
+              <i className="icon-clear"
+                 onClick={() => clearInput(setCommand, setCommandDirty, setCommandError)}/>
+              }
+              {(commandDirty && commandError) &&
+              <div className="error-message"
+                   style={{color: 'red'}}>{commandError}</div>}
+            </div>
+          </label>
+        </div>
+        <div className="base-input">
+          <label>
+            <div className='label'>Main branch</div>
+            <div className="form-input">
+              <input className="ci-input"
+                     type='text'
+                     name='branch'
+                     value={branch}
+                     onChange={e => branchHandler(e)}
+                     placeholder="user-name/repo-name"
+              />
+              {branch !== '' &&
+              <i className="icon-clear" onClick={() => setBranch('')}/>
+              }
+            </div>
+          </label>
+        </div>
+        <div className="small-input">
+          <label>Synchronize every</label>
+          <MaskedInput className="ci-input"
+                       mask={[/[1-9]/, /\d/, /\d/]}
+                       name='period'
                        type='text'
-                       name='repository'
-                       value={repository}
-                       onBlur={e => blurHandler(e)}
-                       onChange={e => repositoryHandler(e)}
-                       placeholder="user-name/repo-name"
-                />
-                {repository !== '' &&
-                <i className="icon-clear"
-                   onClick={() => clearInput(setRepository, setRepositoryDirty, setRepositoryError)}/>
-                }
-                {(repositoryDirty && repositoryError) &&
-                <div className="error-message"
-                     style={{color: 'red'}}>{repositoryError}</div>}
-              </div>
-            </label>
-          </div>
-          <div className="base-input">
-            <label>
-              <div className='label'>Build command<i>*</i></div>
-              <div className="form-input">
-                <input className="ci-input"
-                       type='text'
-                       name='command'
-                       value={command}
-                       onBlur={e => blurHandler(e)}
-                       onChange={e => commandHandler(e)}
-                       placeholder="build command"
-                />
-                {command !== '' &&
-                <i className="icon-clear"
-                   onClick={() => clearInput(setCommand, setCommandDirty, setCommandError)}/>
-                }
-                {(commandDirty && commandError) &&
-                <div className="error-message"
-                     style={{color: 'red'}}>{commandError}</div>}
-              </div>
-            </label>
-          </div>
-          <div className="base-input">
-            <label>
-              <div className='label'>Main branch</div>
-              <div className="form-input">
-                <input className="ci-input"
-                       type='text'
-                       name='branch'
-                       value={branch}
-                       onChange={e => branchHandler(e)}
-                       placeholder="user-name/repo-name"
-                />
-                {branch !== '' &&
-                <i className="icon-clear" onClick={() => setBranch('')}/>
-                }
-              </div>
-            </label>
-          </div>
-          <div className="small-input">
-            <label>Synchronize every</label>
-            <MaskedInput className="ci-input"
-                   mask={[/[1-9]/, /\d/, /\d/]}
-                   name='period'
-                   type='text'
-                   guide={false}
-                   value={period}
-                   onChange={e => periodHandler(e)}
-                   placeholder="0"
-            />
-            <span>minutes</span>
-          </div>
-          <div className="form__btns">
-            <button className="ci-btn ci-btn__big ci-btn__yellow"
-                    onClick={onSubmit}
-                    disabled={!formValid}>
-              <span>Save</span>
-            </button>
-            <NavLink to="/" className="ci-btn ci-btn__big">
-              <span>Cancel</span>
-            </NavLink>
-          </div>
-        </form>
-      </div>
-    </Fragment>
+                       guide={false}
+                       value={period}
+                       onChange={e => periodHandler(e)}
+                       placeholder="0"
+          />
+          <span>minutes</span>
+        </div>
+        <div className="form__btns">
+          <button className="ci-btn ci-btn__big ci-btn__yellow"
+                  onClick={onSubmit}
+                  disabled={!formValid || isFetching}>
+            <span>Save</span>
+          </button>
+          <button className="ci-btn ci-btn__big"
+                  disabled={isFetching}
+                  onClick={onCancel}>
+            <span>Cancel</span>
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }

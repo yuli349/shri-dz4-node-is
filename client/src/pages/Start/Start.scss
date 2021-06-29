@@ -1,11 +1,9 @@
-@import '../../sass/constants.scss';
-
 .start {
   width: 100%;
   height: 100%;
 
   .header__title {
-    color: $primary1;
+    color: var(--primary1);
   }
 
   .ci-btn {

@@ -14,7 +14,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     dispatch(getSettings())
-  }, [])
+  }, [dispatch])
 
   return (
     <Fragment>
@@ -22,13 +22,13 @@ export const MainPage = () => {
         isFetching === false
           ?
           <Fragment>{!settingsData?.repoName && !settingsData?.buildCommand
-          ?
+            ?
             <Start/>
-          :
+            :
             <BuildsList/>
           }</Fragment>
-        :
-        <div className="fetching"/>
+          :
+          <div className="fetching"/>
       }
     </Fragment>
   )
