@@ -19,18 +19,25 @@ export const BuildsList = () => {
   const isFetching = useSelector(state => state.list.isFetching);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commit, setCommit] = useState('');
+  const [offset, setOffset] = useState(0);
   const repoName = settings.repoName.replace('https://github.com/', '');
-  let offset = 0;
 
   function Chunks() {
     const resolution = useWindowResolution();
-    return resolution === 'desktop' ? 9 : 5;
+    if (resolution === 'desktop') {
+      return 9;
+    } else if (resolution === 'mobile') {
+      return 5;
+    }
   }
 
   const chunks = Chunks();
 
   useEffect(() => {
-    dispatch(getList(offset, chunks))
+    if (chunks) {
+      dispatch(getList(offset, chunks));
+    }
+
   }, [dispatch, offset, chunks])
 
   let commitHash = commit || '';
@@ -46,8 +53,8 @@ export const BuildsList = () => {
   }
 
   function showMoreBuilds() {
-    offset += chunks;
-    dispatch(getList(offset, chunks));
+    let count = offset + chunks
+    setOffset(count);
   }
 
   function onSubmit(e) {
@@ -88,15 +95,15 @@ export const BuildsList = () => {
               (
                 <div className="list__builds">
                   {list.map((build) => (
-                    <div className="build" key={build.buildNumber}
+                    <div className="build" key={build?.buildNumber}
                          onClick={() => onBuildClick(build)}>
                       <BuildItem
                         build={build}
-                        key={build.buildNumber}
+                        key={build?.buildNumber}
                       />
                     </div>
                   ))}
-                  {list.length === chunks && (
+                  {list[0]?.buildNumber > list.length && (
                     <button className="ci-btn ci-btn__small list__btn"
                             onClick={() => showMoreBuilds()}>
                       <span>Show more</span>
