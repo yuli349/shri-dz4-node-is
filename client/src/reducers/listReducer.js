@@ -2,7 +2,7 @@ const SET_LIST = 'SET_LIST';
 const SET_IS_FETCHING = 'SET_IS_FETCHING';
 
 const defaultState = {
-  list: {},
+  list: [],
   isFetching: true,
 }
 
@@ -11,7 +11,7 @@ export default function listReducer(state = defaultState, action) {
     case SET_LIST:
       return {
         ...state,
-        list: action.payload,
+        list: state.list.concat(action.payload),
         isFetching: false,
       };
     case SET_IS_FETCHING:

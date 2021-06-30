@@ -9,7 +9,6 @@ import {Modal} from "../../components/Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {getList} from "../../actions/list";
 import {createBuild} from "../../actions/build";
-import {setIsFetching} from "../../reducers/listReducer";
 import {setCommitHash} from "../../reducers/buildReducer";
 
 export const BuildsList = () => {
@@ -21,10 +20,18 @@ export const BuildsList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commit, setCommit] = useState('');
   const repoName = settings.repoName.replace('https://github.com/', '');
+  let offset = 0;
+
+  function Chunks() {
+    const resolution = useWindowResolution();
+    return resolution === 'desktop' ? 9 : 5;
+  }
+
+  const chunks = Chunks();
 
   useEffect(() => {
-    dispatch(getList())
-  }, [dispatch])
+    dispatch(getList(offset, chunks))
+  }, [dispatch, offset, chunks])
 
   let commitHash = commit || '';
 
@@ -38,12 +45,10 @@ export const BuildsList = () => {
     setCommit('');
   }
 
-  function Chunks() {
-    const resolution = useWindowResolution();
-    return resolution === 'mobile' ? 5 : 9;
+  function showMoreBuilds() {
+    offset += chunks;
+    dispatch(getList(offset, chunks));
   }
-
-  const chunks = Chunks();
 
   function onSubmit(e) {
     e.preventDefault();
@@ -53,7 +58,6 @@ export const BuildsList = () => {
         history.push(`/build/${lastBuild}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
-        setTimeout(() => dispatch(setIsFetching(false)), 50);
       })
   }
 
@@ -79,23 +83,22 @@ export const BuildsList = () => {
           isFetching === false
             ?
             (
-              list.length > 0
+              list?.length > 0
               ?
               (
                 <div className="list__builds">
-                  {list.slice(0, chunks).map((build) => (
-                    <div className="build"
-                          key={build.buildNumber}
-                          onClick={() => onBuildClick(build)}
-                    >
+                  {list.map((build) => (
+                    <div className="build" key={build.buildNumber}
+                         onClick={() => onBuildClick(build)}>
                       <BuildItem
                         build={build}
                         key={build.buildNumber}
                       />
                     </div>
                   ))}
-                  {list.length > chunks && (
-                    <button className="ci-btn ci-btn__small list__btn">
+                  {list.length === chunks && (
+                    <button className="ci-btn ci-btn__small list__btn"
+                            onClick={() => showMoreBuilds()}>
                       <span>Show more</span>
                     </button>
                   )}
