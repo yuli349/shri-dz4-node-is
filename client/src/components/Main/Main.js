@@ -12,7 +12,7 @@ export const Main = () => {
       <div className="wrapper">
         <Switch>
           <Route path={'/'} exact component={MainPage}/>
-          <Route path={'/build/:number'} component={BuildDetail}/>
+          <Route path={'/build/:buildId'} component={BuildDetail}/>
           <Route path={'/settings'} component={Settings}/>
         </Switch>
       </div>

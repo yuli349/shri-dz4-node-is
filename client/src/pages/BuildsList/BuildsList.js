@@ -69,8 +69,7 @@ export const BuildsList = () => {
   }
 
   function onBuildClick(build) {
-    localStorage.setItem('buildId', JSON.stringify(build.id))
-    history.push(`/build/${build.buildNumber}`);
+    history.push(`/build/${build.id}`);
   }
 
   return (

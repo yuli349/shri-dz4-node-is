@@ -6,9 +6,8 @@ export function createBuild(commitHash) {
     try {
       dispatch(setIsFetchingBuild(true));
       const response = await axios.post(`http://localhost:3000/api/builds/${commitHash}`);
-      dispatch(setBuild(response.data));
-      dispatch(setIsFetchingBuild(false));
-      localStorage.setItem('buildId', JSON.stringify(response.data.data.buildId))
+      await dispatch(setIsFetchingBuild(false));
+      return response.data;
     } catch (e) {
       console.log(e);
     }

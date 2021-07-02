@@ -4,7 +4,7 @@ import {BuildItem} from '../../components/BuildItem/BuildItem';
 import {Header} from '../../components/Header/Header';
 
 import './BuildDetail.scss';
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createBuild, getBuild, getBuildLogs} from "../../actions/build";
 import {setIsFetchingBuild} from "../../reducers/buildReducer";
@@ -12,28 +12,25 @@ import {setIsFetchingBuild} from "../../reducers/buildReducer";
 export const BuildDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const list = useSelector(state => state.list.list);
   const build = useSelector(state => state.build.build.data);
   const logs = useSelector(state => state.build.logs);
   const isFetching = useSelector(state => state.build.isFetching);
   const ansi_up = new AnsiUp();
-  let html = logs ? ansi_up.ansi_to_html(logs) : '';
-  const buildId = localStorage.getItem('buildId');
+  const html = logs ? ansi_up.ansi_to_html(logs) : '';
+  const { buildId } = useParams();
   useEffect(() => {
     dispatch(setIsFetchingBuild(true));
-    dispatch(getBuild(JSON.parse(buildId)))
+    dispatch(getBuild(buildId))
       .then(() => {
-        dispatch(getBuildLogs(JSON.parse(buildId)))
+        dispatch(getBuildLogs(buildId))
       })
   }, [dispatch, buildId])
-
-  const lastBuild = Number(list[0]?.buildNumber) + 1;
 
   function onSubmit(e) {
     e.preventDefault();
     dispatch(createBuild(build?.commitHash))
-      .then(() => {
-        history.push(`/build/${lastBuild}`);
+      .then((res) => {
+        history.push(`/build/${res.data.buildId}`);
       })
   }
 
