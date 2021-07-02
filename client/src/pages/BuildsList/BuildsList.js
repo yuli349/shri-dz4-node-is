@@ -60,9 +60,8 @@ export const BuildsList = () => {
   function onSubmit(e) {
     e.preventDefault();
     dispatch(createBuild(commitHash))
-      .then(() => {
-        const lastBuild = list.length ? Number(list[0].buildNumber) + 1 : 1;
-        history.push(`/build/${lastBuild}`);
+      .then((res) => {
+        history.push(`/build/${res.data.buildId}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
       })
