@@ -27,51 +27,52 @@ function secToTime(sec) {
   else return hours + " h " + minWithoutHours + " min";
 }
 
-export const BuildItem = ({build}) => {
+export const BuildItem = ({build, status}) => {
   let commitHash = build?.commitHash?.slice(0, 8);
   return (
     <Fragment>
-    {build && (
-      <Fragment>
-        <div className={`build__info status-${renderStatus(build.success, build.status)}`}>
-          <i className="build__info-icon"/>
+      {build && (
+        <Fragment>
+          <div
+            className={`build__info status-${renderStatus(build.success, status)}`}>
+            <i className="build__info-icon"/>
 
-          <div className="build__info-status">
-            <div className="build__info-status-top">
+            <div className="build__info-status">
+              <div className="build__info-status-top">
                             <span className="build__info-number">
                                 {'#' + build.buildNumber}
                             </span>
-              <span className="build__info-status-name">
+                <span className="build__info-status-name">
                                 {build.commitMessage}
                             </span>
-            </div>
-            <div>
+              </div>
+              <div>
                             <span className="build__info-branch">
                                 <i className="icon"/> {build.branchName}
                               <span>{commitHash}</span>
                             </span>
-              <span className="build__info-user">
+                <span className="build__info-user">
                                 <i
                                   className="icon"/> <span>{build.authorName}</span>
                             </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          {build.start &&
-          <div className="build__date">
-            <i className="icon"/>
-            <Moment date={normalizeTime(build.start)} format="D MMM HH:mm"/>
+          <div>
+            {build.start &&
+            <div className="build__date">
+              <i className="icon"/>
+              <Moment date={normalizeTime(build.start)} format="D MMM HH:mm"/>
+            </div>
+            }
+            {build.duration &&
+            <div className="build__time">
+              <i className="icon"/> <span>{secToTime(build.duration)}</span>
+            </div>
+            }
           </div>
-          }
-          {build.duration &&
-          <div className="build__time">
-            <i className="icon"/> <span>{secToTime(build.duration)}</span>
-          </div>
-          }
-        </div>
-      </Fragment>
-    )}
+        </Fragment>
+      )}
     </Fragment>
   )
 

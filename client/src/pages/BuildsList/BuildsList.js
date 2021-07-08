@@ -97,6 +97,7 @@ export const BuildsList = () => {
                          onClick={() => onBuildClick(build)}>
                       <BuildItem
                         build={build}
+                        status={build.status}
                         key={build?.buildNumber}
                       />
                     </div>

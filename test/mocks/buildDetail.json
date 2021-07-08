@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": "d30d3d38-990c-4dbc-9aa2-e2f2d8105c66",
+    "configurationId": "0a0567e4-7de0-4d31-a668-b56b573e1651",
+    "buildNumber": 42,
+    "commitMessage": "bump dependencies",
+    "commitHash": "0dfe95b7804d9e7eccb8d9ab6ddfca30519fc22a",
+    "branchName": "master",
+    "authorName": "Khaled Osman",
+    "status": "Success",
+    "start": "2021-07-02T14:39:16.864",
+    "duration": 119
+  }
+}

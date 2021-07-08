@@ -54,7 +54,7 @@ export const BuildDetail = () => {
                     className="icon"/></NavLink>
                 </Header>
                 <div className="build">
-                  <BuildItem build={build}/>
+                  <BuildItem build={build} status={build?.status}/>
                 </div>
               </Fragment>
 
