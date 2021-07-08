@@ -1,0 +1,25 @@
+.settings {
+  width: 100%;
+  line-height: 18px;
+
+  .header__title {
+    color: var(--primary1);
+  }
+
+  &__subtitle {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    padding: 8px 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .settings {
+
+    &__title {
+      font-size: 18px;
+      padding: 12px 0;
+    }
+  }
+}

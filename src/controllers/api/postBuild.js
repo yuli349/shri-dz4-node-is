@@ -41,7 +41,19 @@ module.exports = async (req, res) => {
     const buildLog = await exec(buildCommand, buildDirConfig);
     const success = !!logResult[0].length;
     const requestBodyFinish = {buildId, duration, success, buildLog: buildLog[0] };
-    const respJson = {buildId, buildNumber, branchName, authorName, commitMessage, success, start: dateTime, duration, buildLog: buildLog[0] };
+    const respJson = {
+      data: {
+        buildId,
+        buildNumber,
+        branchName,
+        authorName,
+        commitMessage,
+        success,
+        start: dateTime,
+        duration,
+        buildLog: buildLog[0]
+      }
+    };
     const resFinish = await axios.post('/build/finish', requestBodyFinish, AXIOS_CONFIG);
     res.send(respJson);
     res.json(resFinish);

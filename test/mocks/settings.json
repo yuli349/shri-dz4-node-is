@@ -1,0 +1,9 @@
+{
+  "data": {
+    "id": "0a0567e4-7de0-4d31-a668-b56b573e1651",
+    "repoName": "https://github.com/khaledosman/react-redux-realworld-example-app",
+    "buildCommand": "npm i && npm run build",
+    "mainBranch": "master",
+    "period": 0
+  }
+}

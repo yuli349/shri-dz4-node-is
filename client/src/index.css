@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  height: 100%;
+  font-family: 'YS Text', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-feature-settings: 'liga', 'kern';
+  -moz-font-feature-settings: 'liga', 'kern';
+  font-feature-settings: 'liga', 'kern';
+  font-size: 13px;
+  line-height: 1.2;
+  background: var(--white);
+}
+
+@font-face {
+  font-family: 'YS Text';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-regular.woff2) format('woff2'),
+  url(//yastatic.net/s3/home/fonts/ys/1/text-regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'YS Text';
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-medium.woff2)
+  format('woff2'),
+  url(//yastatic.net/s3/home/fonts/ys/1/text-medium.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'YS Text';
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-bold.woff2) format('woff2'),
+  url(//yastatic.net/s3/home/fonts/ys/1/text-bold.woff) format('woff');
+}
+
+html,
+#root {
+  height: 100%;
+}
+
+:root {
+  --yellow: #FFCC00;
+  --white: #FFFFFF;
+  --black: #000000;
+  --red: #FF3333;
+  --green: #00B341;
+  --orange: #FF9A00;
+  --primary1: #7F8285;
+  --primary2: #F0F2F3;
+  --primary3: #7F7F7F;
+  --btn: #E6E6E6;
+  --btn-hover: #DBDBDB;
+  --btn-yellow-hover: #F2C200;
+  --btn-disabled: #F2F2F2;
+  --btn-focus: #B3B3B3;
+}
