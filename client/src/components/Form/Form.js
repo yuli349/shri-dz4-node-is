@@ -75,6 +75,10 @@ export const Form = ({settings}) => {
     e.preventDefault();
     dispatch(postSettings(submitJson))
       .then(() => {
+        setRepository('');
+        setCommand('');
+        setBranch('');
+        setPeriod('0');
         history.push('/');
       })
       .catch(() => {

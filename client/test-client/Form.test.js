@@ -80,4 +80,66 @@ describe('Форма настроек', () => {
     fireEvent.click(cancelBtn);
     expect(history.location.pathname).toBe('/');
   });
+
+  it('При отправке формы кнопки переходят в disabled', () => {
+    const history = createMemoryHistory();
+
+    const settings = (
+      <Router history={history}>
+        <Provider store={store}>
+          <Form/>
+        </Provider>
+      </Router>
+    )
+
+    const {getByTestId} = render(settings);
+
+    const repositoryInput = getByTestId('form-repository');
+    const commandInput = getByTestId('form-command');
+    const branchInput = getByTestId('form-branch');
+    const durationInput = getByTestId('form-period');
+
+    fireEvent.change(repositoryInput, {target: {value: 'input text'}});
+    fireEvent.change(commandInput, {target: {value: 'input text'}});
+    fireEvent.change(branchInput, {target: {value: 'input text'}});
+    fireEvent.change(durationInput, {target: {value: '0'}});
+
+    const submitButton = getByTestId('form-btn-submit');
+
+    fireEvent.click(submitButton);
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('Форма очищается при успешной отправке', () => {
+    const formSettings = routerWrapper(
+      <Form testParameters={{
+        form: {
+          apiResponse: {
+            status: 200
+          }
+        }
+      }}/>
+    );
+
+    const {getByTestId} = render(formSettings);
+
+    const repositoryInput = getByTestId('form-repository');
+    const commandInput = getByTestId('form-command');
+    const branchInput = getByTestId('form-branch');
+    const periodInput = getByTestId('form-period');
+
+    fireEvent.change(repositoryInput, {target: {value: 'input text'}});
+    fireEvent.change(commandInput, {target: {value: 'input text'}});
+    fireEvent.change(branchInput, {target: {value: 'input text'}});
+    fireEvent.change(periodInput, {target: {value: '50'}});
+
+    const submitBtn = getByTestId('form-btn-submit');
+
+    fireEvent.click(submitBtn);
+
+    expect(repositoryInput.value).toBe('');
+    expect(commandInput.value).toBe('');
+    expect(branchInput.value).toBe('');
+    expect(periodInput.value).toBe('0');
+  });
 });
