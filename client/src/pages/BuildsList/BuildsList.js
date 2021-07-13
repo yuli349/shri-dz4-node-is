@@ -61,7 +61,7 @@ export const BuildsList = () => {
     e.preventDefault();
     dispatch(createBuild(commitHash))
       .then((res) => {
-        history.push(`/build/${res.data.buildId}`);
+        history.push(`/build/${res?.data?.buildId}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
       })
