@@ -4,6 +4,8 @@ import App from './App';
 import {store} from './reducers';
 import {Provider} from 'react-redux';
 import './index.css';
+import './metrics/allMetrics';
+import './metrics/collectMetrics';
 
 ReactDOM.render(
     <Provider store={store}>

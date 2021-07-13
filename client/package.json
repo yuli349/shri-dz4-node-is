@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "ansi_up": "^5.0.1",
     "axios": "^0.21.1",
+    "first-contentful-paint": "^0.0.1",
     "moment": "^2.29.1",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
@@ -19,7 +20,8 @@
     "react-text-mask": "^5.4.3",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "time-to-interactive": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
