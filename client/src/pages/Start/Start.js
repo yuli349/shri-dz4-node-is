@@ -7,7 +7,7 @@ export const Start = () => {
   return (
     <div className="start">
       <Header title="School CI server">
-        <NavLink data-testId="link-settings" className="ci-btn ci-btn__small header__btn-settings"
+        <NavLink data-testid="link-settings" className="ci-btn ci-btn__small header__btn-settings"
                  to="/settings"><i
           className="icon"/><span>Settings</span></NavLink>
       </Header>
@@ -17,7 +17,7 @@ export const Start = () => {
           <div>Configure repository connection
             and synchronization settings
           </div>
-          <NavLink data-testId="open-settings" to="/settings" className="ci-btn ci-btn__big ci-btn__yellow">
+          <NavLink data-testid="open-settings" to="/settings" className="ci-btn ci-btn__big ci-btn__yellow">
             <span>Open settings</span>
           </NavLink>
         </div>
