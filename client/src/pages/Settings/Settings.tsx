@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react';
 import {Form} from '../../components/Form/Form';
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 import './Settings.scss';
 import {Header} from "../../components/Header/Header";
-import {getSettings} from "../../actions/settings";
-import {useDispatch, useSelector} from "react-redux";
+import {getSettings} from "../../store/actions/settings";
+import {useDispatch} from "react-redux";
 
 export const Settings = () => {
+  const {settings} = useTypedSelector(state => state.settings);
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings.settings);
 
   useEffect(() => {
     dispatch(getSettings())

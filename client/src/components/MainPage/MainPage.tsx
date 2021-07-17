@@ -1,16 +1,15 @@
 import React, {Fragment, useEffect} from 'react';
-
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {Start} from "../../pages/Start/Start";
-import {getSettings} from '../../actions/settings';
+import {getSettings} from '../../store/actions/settings';
 import {BuildsList} from "../../pages/BuildsList/BuildsList";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 export const MainPage = () => {
+  const {settings, isFetching} = useTypedSelector(state => state.settings);
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings.settings);
-  const isFetching = useSelector(state => state.settings.isFetching);
 
-  const settingsData = settings?.data?.data;
+  const settingsData = settings?.data;
 
   useEffect(() => {
     dispatch(getSettings())
@@ -19,9 +18,9 @@ export const MainPage = () => {
   return (
     <Fragment>
       {
-        isFetching === false
+        !isFetching
           ?
-          <Fragment>{!settingsData?.repoName && !settingsData?.buildCommand
+          <Fragment>{!settingsData?.data?.repoName && !settingsData?.data?.buildCommand
             ?
             <Start/>
             :

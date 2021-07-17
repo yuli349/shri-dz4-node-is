@@ -1,8 +1,12 @@
-import React from 'react';
-
+import * as React from 'react'
 import './Header.scss';
 
-export const Header = ({title, children}) => {
+interface HeaderProps {
+  title: string;
+  children?: React.ReactNode;
+}
+
+export const Header: React.FC<HeaderProps> = ({title, children}) => {
   return (
     <div className="header">
       <div className="header__title">
@@ -13,5 +17,4 @@ export const Header = ({title, children}) => {
       </div>
     </div>
   )
-
 }

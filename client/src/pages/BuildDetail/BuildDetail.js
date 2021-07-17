@@ -6,8 +6,8 @@ import {Header} from '../../components/Header/Header';
 import './BuildDetail.scss';
 import {NavLink, useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createBuild, getBuild, getBuildLogs} from "../../actions/build";
-import {setIsFetchingBuild} from "../../reducers/buildReducer";
+import {createBuild, getBuild, getBuildLogs} from "../../store/actions/build";
+import {setIsFetchingBuild} from "../../store/reducers/buildReducer";
 
 export const BuildDetail = () => {
   const dispatch = useDispatch();

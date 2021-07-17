@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import './Form.scss';
 import MaskedInput from 'react-text-mask';
-import {postSettings} from "../../actions/settings";
+import {postSettings} from "../../store/actions/settings";
 import {useDispatch, useSelector} from "react-redux";
 
 export const Form = ({settings}) => {
@@ -100,7 +100,7 @@ export const Form = ({settings}) => {
               <input className="ci-input"
                      type='text'
                      name='repository'
-                     data-testId='form-repository'
+                     data-testid='form-repository'
                      value={repository}
                      onBlur={e => blurHandler(e)}
                      onChange={e => repositoryHandler(e)}
@@ -108,7 +108,7 @@ export const Form = ({settings}) => {
               />
               {repository !== '' &&
               <i className="icon-clear"
-                 data-testId='form-repository-clear-btn'
+                 data-testid='form-repository-clear-btn'
                  onClick={() => clearInput(setRepository, setRepositoryDirty, setRepositoryError)}/>
               }
               {(repositoryDirty && repositoryError) &&
@@ -124,7 +124,7 @@ export const Form = ({settings}) => {
               <input className='ci-input'
                      type='text'
                      name='command'
-                     data-testId='form-command'
+                     data-testid='form-command'
                      value={command}
                      onBlur={e => blurHandler(e)}
                      onChange={e => commandHandler(e)}
@@ -132,7 +132,7 @@ export const Form = ({settings}) => {
               />
               {command !== '' &&
               <i className="icon-clear"
-                 data-testId='form-command-clear-btn'
+                 data-testid='form-command-clear-btn'
                  onClick={() => clearInput(setCommand, setCommandDirty, setCommandError)}/>
               }
               {(commandDirty && commandError) &&
@@ -148,14 +148,14 @@ export const Form = ({settings}) => {
               <input className="ci-input"
                      type='text'
                      name='branch'
-                     data-testId='form-branch'
+                     data-testid='form-branch'
                      value={branch}
                      onChange={e => branchHandler(e)}
                      placeholder="user-name/repo-name"
               />
               {branch !== '' &&
               <i className="icon-clear"
-                 data-testId='form-branch-clear-btn'
+                 data-testid='form-branch-clear-btn'
                  onClick={() => setBranch('')}/>
               }
             </div>
@@ -166,7 +166,7 @@ export const Form = ({settings}) => {
           <MaskedInput className="ci-input"
                        mask={[/[1-9]/, /\d/, /\d/]}
                        name='period'
-                       data-testId='form-period'
+                       data-testid='form-period'
                        type='text'
                        guide={false}
                        value={period}
@@ -179,11 +179,11 @@ export const Form = ({settings}) => {
           <button className="ci-btn ci-btn__big ci-btn__yellow"
                   onClick={onSubmit}
                   disabled={!formValid || isFetching}
-                  data-testId='form-btn-submit'>
+                  data-testid='form-btn-submit'>
             <span>Save</span>
           </button>
           <button className="ci-btn ci-btn__big"
-                  data-testId="form-btn-cancel"
+                  data-testid="form-btn-cancel"
                   disabled={isFetching}
                   onClick={onCancel}>
             <span>Cancel</span>

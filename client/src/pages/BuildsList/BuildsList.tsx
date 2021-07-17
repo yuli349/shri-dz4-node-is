@@ -4,23 +4,30 @@ import {Header} from '../../components/Header/Header';
 import {useHistory} from 'react-router-dom';
 import useWindowResolution from '../../hooks/useWindowResolution';
 import {Link} from "react-router-dom";
+import {getBuilds, Status} from "../../types/list";
+import {BuildConfig} from "../../types/build";
 import './BuildsList.scss';
 import {Modal} from "../../components/Modal/Modal";
-import {useDispatch, useSelector} from "react-redux";
-import {getList} from "../../actions/list";
-import {createBuild} from "../../actions/build";
-import {setCommitHash} from "../../reducers/buildReducer";
+import {useDispatch} from "react-redux";
+import {getList} from "../../store/actions/list";
+import {createBuild} from "../../store/actions/build";
+import {setCommitHash} from "../../store/reducers/buildReducer";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+
+type State = { a: string }; // your state type
+type AppDispatch = ThunkDispatch<State, any, AnyAction>;
 
 export const BuildsList = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings.settings.data.data);
-  const list = useSelector(state => state.list.list);
-  const isFetching = useSelector(state => state.list.isFetching);
+  const dispatch: AppDispatch = useDispatch();
+  const {settings} = useTypedSelector(state => state.settings);
+  const {list, isFetching} = useTypedSelector(state => state.list);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commit, setCommit] = useState('');
   const [offset, setOffset] = useState(0);
-  const repoName = settings.repoName.replace('https://github.com/', '');
+  const repoName = settings?.data?.data?.repoName?.replace('https://github.com/', '');
 
   function Chunks() {
     const resolution = useWindowResolution();
@@ -30,8 +37,8 @@ export const BuildsList = () => {
       return 5;
     }
   }
-
-  const chunks = Chunks();
+  let chunks: number | undefined;
+  chunks = Chunks();
 
   useEffect(() => {
     if (chunks) {
@@ -42,7 +49,7 @@ export const BuildsList = () => {
 
   let commitHash = commit || '';
 
-  const commitHandler = (e) => {
+  const commitHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommit(e.target.value)
     commitHash = e.target.value;
   }
@@ -53,21 +60,23 @@ export const BuildsList = () => {
   }
 
   function showMoreBuilds() {
-    let count = offset + chunks
-    setOffset(count);
+    if (chunks) {
+      let count = offset + chunks
+      setOffset(count);
+    }
   }
 
-  function onSubmit(e) {
+  function onSubmit(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     dispatch(createBuild(commitHash))
-      .then((res) => {
-        history.push(`/build/${res?.data?.buildId}`);
+    .then((res: BuildConfig) => {
+        history.push(`/build/${res?.data?.id}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
       })
   }
 
-  function onBuildClick(build) {
+  function onBuildClick(build: getBuilds<Status>) {
     history.push(`/build/${build.id}`);
   }
 
@@ -85,14 +94,14 @@ export const BuildsList = () => {
       </Header>
       <div className="list">
         {
-          isFetching === false
+          !isFetching
             ?
             (
               list?.length > 0
               ?
               (
                 <div className="list__builds">
-                  {list.map((build) => (
+                  {list.map((build: getBuilds<Status>) => (
                     <div className="build" key={build?.buildNumber}
                          onClick={() => onBuildClick(build)}>
                       <BuildItem
@@ -144,7 +153,7 @@ export const BuildsList = () => {
               </div>
               <div className="form__btns">
                 <button disabled={commit === ''}
-                        onClick={onSubmit}
+                        onClick={() => onSubmit}
                         className="ci-btn ci-btn__big ci-btn__yellow">
                   <span>Run build</span>
                 </button>
