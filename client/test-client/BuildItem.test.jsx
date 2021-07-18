@@ -6,7 +6,7 @@ import {createMemoryHistory} from 'history';
 import { BuildItem } from '../src/components/BuildItem/BuildItem';
 import {Router} from "react-router-dom";
 import {Provider} from "react-redux";
-import {store} from '../src/reducers/index';
+import {store} from '../src/store/reducers/index';
 
 describe('Тесты компонента BuildItem', () => {
   it('Изменяется класс при передачи пропса status Success', () => {

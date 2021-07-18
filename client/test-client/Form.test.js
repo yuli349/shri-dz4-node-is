@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import {render, fireEvent} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import {Form} from '../src/components/Form/Form';
-import {store} from '../src/reducers/index';
+import {store} from '../src/store/reducers/index';
 import {Provider} from 'react-redux';
 import {Router} from "react-router-dom";
 
