@@ -27,7 +27,7 @@ export const getBuild = (buildId: string) => {
       const response = await axios.get(`http://localhost:3000/api/builds/${buildId}`);
       dispatch({
         type: BuildActionTypes.SET_BUILD,
-        payload: response.data
+        payload: response.data.data
       });
       dispatch({
         type: BuildActionTypes.SET_IS_FETCHING,

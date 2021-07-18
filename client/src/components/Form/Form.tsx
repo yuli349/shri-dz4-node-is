@@ -3,12 +3,23 @@ import {useHistory} from 'react-router-dom';
 import './Form.scss';
 import MaskedInput from 'react-text-mask';
 import {postSettings} from "../../store/actions/settings";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {SettingsConfig} from "../../types/settings";
 
-export const Form = ({settings}) => {
-  const dispatch = useDispatch();
+type State = { a: string }; // your state type
+type AppDispatch = ThunkDispatch<State, any, AnyAction>;
+
+interface SettingsProps {
+  settings: SettingsConfig,
+}
+
+export const Form: React.FC<SettingsProps> = ({settings}) => {
+  const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
-  const isFetching = useSelector(state => state.settings.isFetching);
+  const {isFetching} = useTypedSelector(state => state.settings);
   const [repository, setRepository] = useState(settings?.repoName);
   const [command, setCommand] = useState(settings?.buildCommand);
   const [branch, setBranch] = useState(settings?.mainBranch);
@@ -31,7 +42,7 @@ export const Form = ({settings}) => {
     repository?.length && command?.length ? setFormValid(true) : setFormValid(false);
   }, [commandError, repositoryError, repository, command])
 
-  const repositoryHandler = (e) => {
+  const repositoryHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRepository(e.target.value);
     submitJson.repoName = e.target.value;
     e.target.value.length
@@ -39,7 +50,7 @@ export const Form = ({settings}) => {
       : setRepositoryError('Обязательное поле для ввода');
   }
 
-  const commandHandler = (e) => {
+  const commandHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommand(e.target.value);
     submitJson.buildCommand = e.target.value;
     e.target.value.length
@@ -47,17 +58,17 @@ export const Form = ({settings}) => {
       : setCommandError('Обязательное поле для ввода');
   }
 
-  const branchHandler = (e) => {
+  const branchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBranch(e.target.value);
     submitJson.mainBranch = e.target.value;
   }
 
-  const periodHandler = (e) => {
-    setPeriod(e.target.value);
-    submitJson.period = e.target.value;
+  const periodHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPeriod(Number(e.target.value));
+    submitJson.period = Number(e.target.value);
   }
 
-  const blurHandler = (e) => {
+  const blurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'repository') {
       setRepositoryDirty(true);
     } else if (e.target.name === 'command') {
@@ -65,20 +76,16 @@ export const Form = ({settings}) => {
     }
   }
 
-  function clearInput(fn, fnDirty, fnError) {
+  function clearInput(fn: Function, fnDirty: Function, fnError: Function) {
     fn('');
     fnDirty(false);
     fnError('Обязательное поле для ввода');
   }
 
-  function onSubmit(e) {
+  function onSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
     e.preventDefault();
     dispatch(postSettings(submitJson))
       .then(() => {
-        setRepository('');
-        setCommand('');
-        setBranch('');
-        setPeriod('0');
         history.push('/');
       })
       .catch(() => {

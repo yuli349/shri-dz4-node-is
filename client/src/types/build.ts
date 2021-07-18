@@ -1,5 +1,18 @@
+export interface getBuildDetails {
+  id: string;
+  configurationId: string;
+  buildNumber: number;
+  commitMessage: string;
+  commitHash: string;
+  branchName: string;
+  authorName: string;
+  status: string;
+  start: string;
+  duration: number;
+}
+
 export interface BuildState {
-  build: object,
+  build: getBuildDetails,
   isFetching: boolean,
   commitHash: string,
   logs: string,
@@ -7,9 +20,15 @@ export interface BuildState {
 
 export interface BuildConfig {
   data: {
-    id: string,
+    authorName: string,
+    branchName: string,
+    buildId: string,
+    buildLog: string,
     buildNumber: number,
-    status: string
+    commitMessage: string,
+    duration: number,
+    start: string,
+    success: boolean
   }
 }
 
@@ -22,7 +41,7 @@ export enum BuildActionTypes {
 
 interface SetBuildAction {
   type: BuildActionTypes.SET_BUILD;
-  payload: object;
+  payload: getBuildDetails;
 }
 
 interface SetHashAction {

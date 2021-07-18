@@ -5,8 +5,13 @@ import {
   SettingsConfig
 } from "../../types/settings";
 
-const initialState: SettingsState = {
-  settings: {},
+export const initialState: SettingsState = {
+  settings: {
+    repoName: '',
+    buildCommand: '',
+    mainBranch: 'master',
+    period: 0,
+  },
   isFetching: false,
   error: '',
 }
@@ -19,7 +24,7 @@ export const settingsReducer = (state = initialState, action: SettingsAction): S
         settings: action.payload,
       };
     case SettingsActionTypes.SET_IS_FETCHING:
-      return {...state, isFetching: false};
+      return {...state, isFetching: action.payload};
     case SettingsActionTypes.SET_ERROR:
       return {...state, error: action.payload};
     default:

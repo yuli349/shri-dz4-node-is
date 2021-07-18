@@ -1,15 +1,22 @@
-import React, {Fragment, useRef, useContext, useState, useEffect} from "react";
+import React, {Fragment, useContext, useEffect, useRef, useState} from "react";
 import ReactDOM from "react-dom";
 import './Modal.scss'
 
-const Context = React.createContext();
+interface ModalProps {
+  onClose?: () => {};
+  children?: React.ReactNode;
+}
 
-export function ModalProvider({children}) {
-  const modalRef = useRef();
-  const [context, setContext] = useState();
+const Context = React.createContext<HTMLDivElement | undefined>(undefined);
+
+export const ModalProvider: React.FC<ModalProps> = ({children}) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const [context, setContext] = useState<HTMLDivElement>();
 
   useEffect(() => {
-    setContext(modalRef.current);
+    if (modalRef.current) {
+      setContext(modalRef.current);
+    }
   }, []);
 
   return (
@@ -20,7 +27,7 @@ export function ModalProvider({children}) {
   );
 }
 
-export function Modal({onClose, children, ...props}) {
+export const Modal: React.FC<ModalProps> = ({onClose, children, ...props}) => {
   const modalNode = useContext(Context);
 
   return modalNode

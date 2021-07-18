@@ -12,7 +12,7 @@ export const Settings = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSettings())
+    dispatch(getSettings());
   }, [dispatch])
 
   return (

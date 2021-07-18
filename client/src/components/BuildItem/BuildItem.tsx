@@ -1,40 +1,46 @@
 import React, {Fragment} from 'react';
 import Moment from 'react-moment';
+import {getBuildDetails} from "../../types/build";
 
 import './BuildItem.scss';
 
-function renderStatus(success, status) {
+interface BuildItemProps {
+  build: getBuildDetails;
+  status: string
+}
+
+function renderStatus(status: string) {
   switch (true) {
-    case success === true || status === 'Success':
+    case status === 'Success':
       return 'ok';
-    case success === false || status === 'Fail':
+    case status === 'Fail':
       return 'fail';
     default:
       return 'wait';
   }
 }
 
-function normalizeTime(time) {
+function normalizeTime(time: string) {
   return new Date(`${time.replace(/Z/gi, '').replace(/\s+/g, 'T')}Z`);
 }
 
-function secToTime(sec) {
+function secToTime(sec: number) {
   let minutes = (sec / 60).toFixed(0);
   let hours = Math.trunc(sec / 3600);
-  let minWithoutHours = minutes - hours * 60;
+  let minWithoutHours = Number(minutes) - hours * 60;
   if (sec < 60) return sec + " sec";
-  else if (minutes < 60) return minutes + " min";
+  else if (Number(minutes) < 60) return minutes + " min";
   else return hours + " h " + minWithoutHours + " min";
 }
 
-export const BuildItem = ({build, status}) => {
+export const BuildItem: React.FC<BuildItemProps> = ({build, status}) => {
   let commitHash = build?.commitHash?.slice(0, 8);
   return (
     <Fragment>
       {build && (
         <Fragment>
           <div
-            className={`build__info status-${renderStatus(build.success, status)}`}>
+            className={`build__info status-${renderStatus(status)}`}>
             <i className="build__info-icon"/>
 
             <div className="build__info-status">
@@ -75,5 +81,4 @@ export const BuildItem = ({build, status}) => {
       )}
     </Fragment>
   )
-
 }

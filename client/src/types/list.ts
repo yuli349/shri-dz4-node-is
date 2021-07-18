@@ -1,5 +1,5 @@
 export interface ListState {
-  list: any,
+  list: any, // подскажите, можно ли было здесь обойтись без any?
   isFetching: boolean,
 }
 
@@ -25,7 +25,13 @@ export interface getBuilds<T> {
 
 export enum ListActionTypes {
   SET_LIST = 'SET_LIST',
+  SET_CLEAR_LIST = 'SET_CLEAR_LIST',
   SET_IS_FETCHING = 'SET_IS_FETCHING',
+}
+
+interface SetClearListAction {
+  type: ListActionTypes.SET_CLEAR_LIST;
+  payload: any;
 }
 
 interface SetListAction {
@@ -38,4 +44,4 @@ interface SetIsFetchingAction {
   payload: boolean;
 }
 
-export type ListAction = SetListAction | SetIsFetchingAction;
+export type ListAction = SetListAction | SetClearListAction | SetIsFetchingAction;

@@ -13,8 +13,8 @@ import {getList} from "../../store/actions/list";
 import {createBuild} from "../../store/actions/build";
 import {setCommitHash} from "../../store/reducers/buildReducer";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 
 type State = { a: string }; // your state type
 type AppDispatch = ThunkDispatch<State, any, AnyAction>;
@@ -27,7 +27,7 @@ export const BuildsList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commit, setCommit] = useState('');
   const [offset, setOffset] = useState(0);
-  const repoName = settings?.data?.data?.repoName?.replace('https://github.com/', '');
+  const repoName = settings?.repoName?.replace('https://github.com/', '');
 
   function Chunks() {
     const resolution = useWindowResolution();
@@ -37,6 +37,7 @@ export const BuildsList = () => {
       return 5;
     }
   }
+
   let chunks: number | undefined;
   chunks = Chunks();
 
@@ -66,11 +67,11 @@ export const BuildsList = () => {
     }
   }
 
-  function onSubmit(e: React.ChangeEvent<HTMLInputElement>) {
+  function onSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
     e.preventDefault();
     dispatch(createBuild(commitHash))
-    .then((res: BuildConfig) => {
-        history.push(`/build/${res?.data?.id}`);
+      .then((res: BuildConfig) => {
+        history.push(`/build/${res?.data?.buildId}`);
         dispatch(setCommitHash(commitHash))
         closeModal();
       })
@@ -98,27 +99,27 @@ export const BuildsList = () => {
             ?
             (
               list?.length > 0
-              ?
-              (
-                <div className="list__builds">
-                  {list.map((build: getBuilds<Status>) => (
-                    <div className="build" key={build?.buildNumber}
-                         onClick={() => onBuildClick(build)}>
-                      <BuildItem
-                        build={build}
-                        status={build.status}
-                        key={build?.buildNumber}
-                      />
-                    </div>
-                  ))}
-                  {list[0]?.buildNumber > list.length && (
-                    <button className="ci-btn ci-btn__small list__btn"
-                            onClick={() => showMoreBuilds()}>
-                      <span>Show more</span>
-                    </button>
-                  )}
-                </div>
-              )
+                ?
+                (
+                  <div className="list__builds">
+                    {list.map((build: getBuilds<Status>) => (
+                      <div className="build" key={build?.buildNumber}
+                           onClick={() => onBuildClick(build)}>
+                        <BuildItem
+                          build={build}
+                          status={build.status}
+                          key={build?.buildNumber}
+                        />
+                      </div>
+                    ))}
+                    {list[0]?.buildNumber > list.length && (
+                      <button className="ci-btn ci-btn__small list__btn"
+                              onClick={() => showMoreBuilds()}>
+                        <span>Show more</span>
+                      </button>
+                    )}
+                  </div>
+                )
                 :
                 <div>The list of builds is empty</div>
             )
@@ -153,7 +154,7 @@ export const BuildsList = () => {
               </div>
               <div className="form__btns">
                 <button disabled={commit === ''}
-                        onClick={() => onSubmit}
+                        onClick={onSubmit}
                         className="ci-btn ci-btn__big ci-btn__yellow">
                   <span>Run build</span>
                 </button>

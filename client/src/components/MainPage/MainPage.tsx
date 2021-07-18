@@ -8,11 +8,10 @@ import {useDispatch} from "react-redux";
 export const MainPage = () => {
   const {settings, isFetching} = useTypedSelector(state => state.settings);
   const dispatch = useDispatch();
-
-  const settingsData = settings?.data;
+  const settingsData = settings;
 
   useEffect(() => {
-    dispatch(getSettings())
+    dispatch(getSettings());
   }, [dispatch])
 
   return (
@@ -20,7 +19,7 @@ export const MainPage = () => {
       {
         !isFetching
           ?
-          <Fragment>{!settingsData?.data?.repoName && !settingsData?.data?.buildCommand
+          <Fragment>{!settingsData?.repoName && !settingsData?.buildCommand
             ?
             <Start/>
             :

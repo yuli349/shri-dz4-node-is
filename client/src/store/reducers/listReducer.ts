@@ -7,11 +7,15 @@ const initialState: ListState = {
 
 export const listReducer = (state = initialState, action: ListAction): ListState => {
   switch (action.type) {
+    case ListActionTypes.SET_CLEAR_LIST:
+      return {
+        ...state,
+        list: [],
+      };
     case ListActionTypes.SET_LIST:
       return {
         ...state,
         list: state.list.concat(action.payload),
-        isFetching: false,
       };
     case ListActionTypes.SET_IS_FETCHING:
       return {...state, isFetching: false};
@@ -21,4 +25,3 @@ export const listReducer = (state = initialState, action: ListAction): ListState
 }
 
 export const setList = (list: any) => ({type: ListActionTypes.SET_LIST, payload: list});
-// export const setIsFetching = (bool) => ({type: ListActionTypes.SET_IS_FETCHING, payload: bool});

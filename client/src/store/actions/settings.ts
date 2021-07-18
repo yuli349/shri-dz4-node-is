@@ -10,16 +10,17 @@ export const getSettings = () => {
         payload: true
       });
       const response = await axios.get(`http://localhost:3000/api/settings`);
-      dispatch({
+      await dispatch({
         type: SettingsActionTypes.SET_SETTINGS,
-        payload: response
+        payload: response.data.data
       });
+    } catch (e) {
+      console.log(e);
+    } finally {
       dispatch({
         type: SettingsActionTypes.SET_IS_FETCHING,
         payload: false
       });
-    } catch (e) {
-      console.log(e);
     }
   }
 }
@@ -37,7 +38,7 @@ export const postSettings = (req: SettingsConfig) => {
       }
       await dispatch({
         type: SettingsActionTypes.SET_SETTINGS,
-        payload: response
+        payload: response.data.data
       });
     } finally {
       dispatch({

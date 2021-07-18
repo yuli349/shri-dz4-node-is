@@ -1,5 +1,12 @@
+export interface SettingsConfig {
+  repoName: string;
+  buildCommand: string;
+  mainBranch: string;
+  period: number;
+}
+
 export interface SettingsState {
-  settings: any,
+  settings: SettingsConfig,
   isFetching: boolean,
   error: string,
 }
@@ -10,16 +17,9 @@ export enum SettingsActionTypes {
   SET_ERROR = 'SET_ERROR',
 }
 
-export interface SettingsConfig {
-  repoName: string;
-  buildCommand: string;
-  mainBranch: string;
-  period: number;
-}
-
 interface SetSettingsAction {
   type: SettingsActionTypes.SET_SETTINGS;
-  payload: any;
+  payload: SettingsConfig;
 }
 
 interface SetIsFetchingAction {
