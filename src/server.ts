@@ -1,7 +1,7 @@
 require('dotenv').config();
-const express = require('express');
-const { apiRouter } = require('./routers');
-const corsMiddleware = require('./middleware/cors.middleware');
+import express from "express";
+import apiRouter from './routers';
+import corsMiddleware from './middleware/cors.middleware';
 
 const app = express();
 

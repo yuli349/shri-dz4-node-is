@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-module.exports = {
+export default{
   PORT: 3000,
   GIT_LOCAL_PATH: path.resolve(__dirname, '../../Jason'),
   GIT_REPOSITORY_FOLDER_NAME: 'Jason',

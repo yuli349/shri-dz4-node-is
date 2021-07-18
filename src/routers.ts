@@ -1,8 +1,8 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const api = require('./controllers/api');
 
-const apiRouter = new Router();
+const apiRouter = Router();
 
 apiRouter.get('/settings', api.getSettings);
 apiRouter.post('/settings', api.postSettings);
@@ -11,4 +11,4 @@ apiRouter.get('/builds/:buildId', api.getBuild);
 apiRouter.get('/builds/:buildId/logs', api.getBuildLogs);
 apiRouter.post('/builds/:commitHash', api.postBuild);
 
-exports.apiRouter = apiRouter;
+export default apiRouter;
